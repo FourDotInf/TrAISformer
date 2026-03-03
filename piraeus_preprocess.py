@@ -13,7 +13,7 @@ DATA_ROOT = os.path.join(os.path.dirname(script_dir), "data")
 YEARS_TRAIN = [2017, 2018]
 YEARS_TEST = [2019]
 
-OUTPUT_DIR = "/data/processed"
+OUTPUT_DIR = os.path.join(DATA_ROOT, "processed")
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # ==========================================

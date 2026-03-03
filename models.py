@@ -22,8 +22,6 @@ The code is built upon:
 
 import math
 import logging
-import pdb
-
 
 import torch
 import torch.nn as nn
@@ -347,16 +345,16 @@ class TrAISformer(nn.Module):
                     blurred_sog_probs = self.blur_module(sog_probs.reshape(-1,1,self.sog_size)).reshape(sog_probs.shape)
                     blurred_cog_probs = self.blur_module(cog_probs.reshape(-1,1,self.cog_size)).reshape(cog_probs.shape)
 
-                    blurred_lat_loss = F.nll_loss(blurred_lat_probs.view(-1, self.lat_size),
+                    blurred_lat_loss = F.nll_loss(torch.log(blurred_lat_probs + 1e-8).view(-1, self.lat_size),
                                                   targets[:,:,0].view(-1),
                                                   reduction="none").view(batchsize,seqlen)
-                    blurred_lon_loss = F.nll_loss(blurred_lon_probs.view(-1, self.lon_size),
+                    blurred_lon_loss = F.nll_loss(torch.log(blurred_lon_probs + 1e-8).view(-1, self.lon_size),
                                                   targets[:,:,1].view(-1),
                                                   reduction="none").view(batchsize,seqlen)
-                    blurred_sog_loss = F.nll_loss(blurred_sog_probs.view(-1, self.sog_size),
+                    blurred_sog_loss = F.nll_loss(torch.log(blurred_sog_probs + 1e-8).view(-1, self.sog_size),
                                                   targets[:,:,2].view(-1),
                                                   reduction="none").view(batchsize,seqlen)
-                    blurred_cog_loss = F.nll_loss(blurred_cog_probs.view(-1, self.cog_size),
+                    blurred_cog_loss = F.nll_loss(torch.log(blurred_cog_probs + 1e-8).view(-1, self.cog_size),
                                                   targets[:,:,3].view(-1),
                                                   reduction="none").view(batchsize,seqlen)
 
